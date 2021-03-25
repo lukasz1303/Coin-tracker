@@ -21,7 +21,7 @@ private val retrofit = Retrofit.Builder()
         .build()
 
 interface MessariApiService {
-        @GET("assets?limit=100&fields=id,slug,symbol,metrics/market_data/price_usd,metrics/market_data/percent_change_usd_last_24_hours")
+        @GET("assets?limit=50&fields=id,slug,symbol,metrics/market_data/price_usd,metrics/market_data/percent_change_usd_last_24_hours")
         fun getAssets(): Deferred<Asset>
 
 }
