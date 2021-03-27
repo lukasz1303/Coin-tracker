@@ -22,6 +22,18 @@ class OverviewViewModel :ViewModel(){
     private val viewModelJob = Job()
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
+    private val _navigateToSelectedCoin = MutableLiveData<Data>()
+    val navigateToSelectedCoin: LiveData<Data>
+        get() = _navigateToSelectedCoin
+
+    fun displayCoinDetails(data: Data) {
+        _navigateToSelectedCoin.value = data
+    }
+
+    fun displayCoinDetailsComplete() {
+        _navigateToSelectedCoin.value = null
+    }
+
     init{
         getAssets()
     }

@@ -7,13 +7,18 @@
         <variable
             name="viewHolder"
             type="com.lukasz.cointracker.network.Data" />
+        <variable
+            name="clickListener"
+            type="com.lukasz.cointracker.CoinListener" />
+        <variable
+            name="data"
+            type="com.lukasz.cointracker.network.Data" />
     </data>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/coin_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:tag="layout/list_coin_item">
 
         <TextView
@@ -21,7 +26,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_weight="5"
             android:gravity="start"
             android:text="@{viewHolder.symbol}"
             android:textSize="16sp"
@@ -30,7 +34,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/textView2"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintHorizontal_weight="3"
+            app:layout_constraintHorizontal_weight="6"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="BTC" />
@@ -40,7 +44,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center|end"
-            android:layout_weight="3"
             android:gravity="end"
             android:layout_margin="8dp"
             android:textSize="16sp"
@@ -48,7 +51,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/textView3"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintHorizontal_weight="3"
             app:layout_constraintStart_toEndOf="@+id/textView"
             app:layout_constraintTop_toTopOf="parent"
             app:price="@{viewHolder.metrics.market_data.price_usd}"
@@ -59,18 +62,17 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center|end"
-            android:layout_weight="2"
             android:gravity="end"
             android:textSize="16sp"
             android:layout_margin="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintHorizontal_weight="2"
             app:layout_constraintStart_toEndOf="@+id/textView2"
             app:layout_constraintTop_toTopOf="parent"
             android:textColor="@{viewHolder.metrics.market_data.percent_change_usd_last_24_hours >= 0 ? @color/green : @color/red}"
             app:percentage_change="@{viewHolder.metrics.market_data.percent_change_usd_last_24_hours}"
             tools:text="15.45494" />
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

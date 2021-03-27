@@ -6,14 +6,16 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.lukasz.cointracker.databinding.ListCoinItemBinding
-import com.lukasz.cointracker.network.Asset
 import com.lukasz.cointracker.network.Data
 
-class CoinAdapter: ListAdapter<Data, CoinAdapter.DataViewHolder>(CoinDiffCallback()) {
+class CoinAdapter(val clickListener: CoinListener): ListAdapter<Data, CoinAdapter.DataViewHolder>(CoinDiffCallback()) {
 
     class DataViewHolder (val binding: ListCoinItemBinding) : RecyclerView.ViewHolder(binding.root){
-        fun bind(data: Data){
+        fun bind(data: Data, clickListener: CoinListener){
             binding.viewHolder = data
+            binding.data = data
+
+            binding.clickListener = clickListener
             binding.executePendingBindings()
         }
     }
@@ -34,9 +36,17 @@ class CoinAdapter: ListAdapter<Data, CoinAdapter.DataViewHolder>(CoinDiffCallbac
     }
 
     override fun onBindViewHolder(holder: DataViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        holder.itemView.setOnClickListener {
+            clickListener.onClick(holder.binding.data!!)
+        }
+
+        holder.bind(getItem(position)!!, clickListener)
     }
 
+}
+
+class CoinListener(val clickListener: (data: Data) -> Unit) {
+    fun onClick(data: Data) = clickListener(data)
 
 
 }

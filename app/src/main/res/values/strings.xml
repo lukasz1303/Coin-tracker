@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">Coin tracker</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="price_label">Price</string>
+    <string name="_1h_label">1h %</string>
+    <string name="_24h_label">24h %</string>
+    <string name="market_cap_label">Market Cap</string>
+    <string name="volume_label">Volume 24h</string>
 </resources>

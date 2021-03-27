@@ -5,9 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.lukasz.cointracker.databinding.FragmentOverviewBinding
 
 
@@ -45,7 +46,18 @@ class OverviewFragment : Fragment() {
         val manager = GridLayoutManager(activity,1)
         binding.coinList.layoutManager = manager
 
-        binding.coinList.adapter = CoinAdapter()
+
+        binding.coinList.adapter = CoinAdapter(CoinListener {
+            viewModel.displayCoinDetails(it)
+        })
+
+        viewModel.navigateToSelectedCoin.observe(viewLifecycleOwner, Observer {
+            if ( null != it ) {
+                this.findNavController().navigate(
+                        OverviewFragmentDirections.actionOverviewFragmentToDetailFragment(it))
+                viewModel.displayCoinDetailsComplete()
+            }
+        })
 
         return binding.root
     }
