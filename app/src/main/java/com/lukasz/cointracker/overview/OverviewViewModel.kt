@@ -1,4 +1,4 @@
-package com.lukasz.cointracker
+package com.lukasz.cointracker.overview
 
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -39,16 +39,19 @@ class OverviewViewModel :ViewModel(){
     }
     private fun getAssets(){
         coroutineScope.launch {
-            val getAssetsDeferred = MessariApi.retrofitService.getAssets()
-            try {
-                val result =  getAssetsDeferred.await()
-                _response.value = "Success: ${result.data.size} assets retrieved"
-                _data.value = result.data
-                Log.i("OverviewViewModel", "Success: ${result.data.size} assets retrieved\n\n\n")
-            } catch (e: Exception){
-                _response.value = "Failure: ${e.message}"
-                _data.value = ArrayList()
-                Log.i("OverviewViewModel", "Failure: ${e.message}\n\n\n")
+            while (true){
+                val getAssetsDeferred = MessariApi.retrofitService.getAssets()
+                try {
+                    val result =  getAssetsDeferred.await()
+                    _response.value = "Success: ${result.data.size} assets retrieved"
+                    _data.value = result.data
+                    Log.i("OverviewViewModel", "Success: ${result.data.size} assets retrieved\n\n\n")
+                } catch (e: Exception){
+                    _response.value = "Failure: ${e.message}"
+                    _data.value = ArrayList()
+                    Log.i("OverviewViewModel", "Failure: ${e.message}\n\n\n")
+                }
+                delay(15000)
             }
         }
     }

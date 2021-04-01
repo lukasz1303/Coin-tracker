@@ -7,6 +7,8 @@ import kotlinx.coroutines.Deferred
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.Retrofit
 import retrofit2.http.GET
+import retrofit2.http.Header
+import retrofit2.http.Headers
 import kotlin.coroutines.CoroutineContext
 
 private const val BASE_URL = "https://data.messari.io/api/v1/"
@@ -21,6 +23,7 @@ private val retrofit = Retrofit.Builder()
         .build()
 
 interface MessariApiService {
+        //@Headers("x-messari-api-key:248377b9-b9aa-4f6d-b15f-5ab7cfbb20ab")
         @GET("assets?limit=100&fields=id,slug,symbol,metrics/market_data/price_usd,metrics/market_data/percent_change_usd_last_24_hours,metrics/market_data/percent_change_usd_last_1_hour,metrics/market_data/volume_last_24_hours,metrics/marketcap/current_marketcap_usd")
         fun getAssets(): Deferred<Asset>
 
