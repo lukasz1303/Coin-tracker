@@ -17,8 +17,8 @@ class DetailFragment : Fragment() {
 
         binding.lifecycleOwner = this
 
-        val data = DetailFragmentArgs.fromBundle(requireArguments()).selectedCoin
-        val viewModelFactory = DetailViewModelFactory(data, application)
+        val coin = DetailFragmentArgs.fromBundle(requireArguments()).selectedCoin
+        val viewModelFactory = DetailViewModelFactory(coin, application)
         binding.viewModel = ViewModelProvider(
             this, viewModelFactory).get(DetailViewModel::class.java)
 

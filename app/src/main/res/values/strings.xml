@@ -5,4 +5,5 @@
     <string name="_24h_label">24h %</string>
     <string name="market_cap_label">Market Cap</string>
     <string name="volume_label">Volume 24h</string>
+    <string name="coin_symbol">Coin symbol</string>
 </resources>

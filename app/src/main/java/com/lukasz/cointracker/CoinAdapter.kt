@@ -6,38 +6,37 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.lukasz.cointracker.databinding.ListCoinItemBinding
-import com.lukasz.cointracker.network.Data
+import com.lukasz.cointracker.network.Coin
 
-class CoinAdapter(val clickListener: CoinListener): ListAdapter<Data, CoinAdapter.DataViewHolder>(CoinDiffCallback()) {
+class CoinAdapter(val clickListener: CoinListener): ListAdapter<Coin, CoinAdapter.CoinViewHolder>(CoinDiffCallback()) {
 
-    class DataViewHolder (val binding: ListCoinItemBinding) : RecyclerView.ViewHolder(binding.root){
-        fun bind(data: Data, clickListener: CoinListener){
-            binding.viewHolder = data
-            binding.data = data
+    class CoinViewHolder (val binding: ListCoinItemBinding) : RecyclerView.ViewHolder(binding.root){
+        fun bind(coin: Coin, clickListener: CoinListener){
+            binding.viewHolder = coin
 
             binding.clickListener = clickListener
             binding.executePendingBindings()
         }
     }
 
-    class CoinDiffCallback: DiffUtil.ItemCallback<Data>() {
-        override fun areItemsTheSame(oldItem: Data, newItem: Data): Boolean {
+    class CoinDiffCallback: DiffUtil.ItemCallback<Coin>() {
+        override fun areItemsTheSame(oldItem: Coin, newItem: Coin): Boolean {
             return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: Data, newItem: Data): Boolean {
+        override fun areContentsTheSame(oldItem: Coin, newItem: Coin): Boolean {
             return oldItem == newItem
         }
 
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataViewHolder {
-        return DataViewHolder(ListCoinItemBinding.inflate(LayoutInflater.from(parent.context)))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CoinViewHolder {
+        return CoinViewHolder(ListCoinItemBinding.inflate(LayoutInflater.from(parent.context)))
     }
 
-    override fun onBindViewHolder(holder: DataViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: CoinViewHolder, position: Int) {
         holder.itemView.setOnClickListener {
-            clickListener.onClick(holder.binding.data!!)
+            clickListener.onClick(holder.binding.viewHolder!!)
         }
 
         holder.bind(getItem(position)!!, clickListener)
@@ -45,8 +44,8 @@ class CoinAdapter(val clickListener: CoinListener): ListAdapter<Data, CoinAdapte
 
 }
 
-class CoinListener(val clickListener: (data: Data) -> Unit) {
-    fun onClick(data: Data) = clickListener(data)
+class CoinListener(val clickListener: (coin: Coin) -> Unit) {
+    fun onClick(coin: Coin) = clickListener(coin)
 
 
 }

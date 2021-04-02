@@ -4,8 +4,8 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.lukasz.cointracker.network.Data
-import com.lukasz.cointracker.network.MessariApi
+import com.lukasz.cointracker.network.*
+import com.lukasz.cointracker.network.CoinGeckoApi.retrofitServiceCoinGecko
 import kotlinx.coroutines.*
 
 class OverviewViewModel :ViewModel(){
@@ -14,19 +14,19 @@ class OverviewViewModel :ViewModel(){
     val response: LiveData<String>
     get() = _response
 
-    private val _data = MutableLiveData<List<Data>>()
-    val data: LiveData<List<Data>>
-        get() = _data
+    private val _coins = MutableLiveData<List<Coin>>()
+    val coins: LiveData<List<Coin>>
+        get() = _coins
 
     private val viewModelJob = Job()
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
-    private val _navigateToSelectedCoin = MutableLiveData<Data>()
-    val navigateToSelectedCoin: LiveData<Data>
+    private val _navigateToSelectedCoin = MutableLiveData<Coin>()
+    val navigateToSelectedCoin: LiveData<Coin>
         get() = _navigateToSelectedCoin
 
-    fun displayCoinDetails(data: Data) {
-        _navigateToSelectedCoin.value = data
+    fun displayCoinDetails(coin: Coin) {
+        _navigateToSelectedCoin.value = coin
     }
 
     fun displayCoinDetailsComplete() {
@@ -34,21 +34,21 @@ class OverviewViewModel :ViewModel(){
     }
 
     init{
-        getAssets()
+        getCoins()
     }
 
-    private fun getAssets(){
+    private fun getCoins(){
         coroutineScope.launch {
             while (true){
-                val getAssetsDeferred = MessariApi.retrofitService.getAssets()
+                val getCoinsDeferred = retrofitServiceCoinGecko.getCoins()
                 try {
-                    val result =  getAssetsDeferred.await()
-                    _response.value = "Success: ${result.data.size} assets retrieved"
-                    _data.value = result.data
-                    Log.i("OverviewViewModel", "Success: ${result.data.size} assets retrieved\n\n\n")
+                    val result =  getCoinsDeferred.await()
+                    _response.value = "Success: ${result.size} assets retrieved"
+                    _coins.value = result
+                    Log.i("OverviewViewModel", "Success: ${result.size} assets retrieved\n\n\n")
                 } catch (e: Exception){
                     _response.value = "Failure: ${e.message}"
-                    _data.value = ArrayList()
+                    _coins.value = ArrayList()
                     Log.i("OverviewViewModel", "Failure: ${e.message}\n\n\n")
                 }
                 delay(15000)
