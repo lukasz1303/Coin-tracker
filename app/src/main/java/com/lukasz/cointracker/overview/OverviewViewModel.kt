@@ -4,7 +4,6 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.lukasz.cointracker.network.Asset
 import com.lukasz.cointracker.network.Data
 import com.lukasz.cointracker.network.MessariApi
 import kotlinx.coroutines.*
@@ -37,6 +36,7 @@ class OverviewViewModel :ViewModel(){
     init{
         getAssets()
     }
+
     private fun getAssets(){
         coroutineScope.launch {
             while (true){
