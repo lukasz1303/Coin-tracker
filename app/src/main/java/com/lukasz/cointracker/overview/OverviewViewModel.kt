@@ -1,22 +1,18 @@
 package com.lukasz.cointracker.overview
 
+import android.app.Application
 import android.util.Log
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import com.lukasz.cointracker.network.*
-import com.lukasz.cointracker.network.CoinGeckoApi.retrofitServiceCoinGecko
+import com.lukasz.cointracker.database.getDatabase
+import com.lukasz.cointracker.domain.Coin
+import com.lukasz.cointracker.repository.CoinsRepository
 import kotlinx.coroutines.*
 
-class OverviewViewModel :ViewModel(){
+class OverviewViewModel (application: Application) : AndroidViewModel(application){
 
-    private val _response = MutableLiveData<String>()
-    val response: LiveData<String>
-    get() = _response
-
-    private val _coins = MutableLiveData<List<Coin>>()
-    val coins: LiveData<List<Coin>>
-        get() = _coins
+    private val coinsRepository = CoinsRepository(getDatabase(application))
 
     private val viewModelJob = Job()
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
@@ -34,21 +30,19 @@ class OverviewViewModel :ViewModel(){
     }
 
     init{
-        getCoins()
+        refreshDataFromRepository()
     }
 
-    private fun getCoins(){
+    val coins = coinsRepository.coins
+
+    private fun refreshDataFromRepository() {
         coroutineScope.launch {
             while (true){
-                val getCoinsDeferred = retrofitServiceCoinGecko.getCoins()
                 try {
-                    val result =  getCoinsDeferred.await()
-                    _response.value = "Success: ${result.size} assets retrieved"
-                    _coins.value = result
-                    Log.i("OverviewViewModel", "Success: ${result.size} assets retrieved\n\n\n")
+                    coinsRepository.refreshCoins()
+                    Log.i("OverviewViewModel", "Success: assets retrieved\n\n\n")
+
                 } catch (e: Exception){
-                    _response.value = "Failure: ${e.message}"
-                    _coins.value = ArrayList()
                     Log.i("OverviewViewModel", "Failure: ${e.message}\n\n\n")
                 }
                 delay(15000)

@@ -9,7 +9,7 @@
             type="com.lukasz.cointracker.CoinListener" />
         <variable
             name="viewHolder"
-            type="com.lukasz.cointracker.network.Coin" />
+            type="com.lukasz.cointracker.domain.Coin" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

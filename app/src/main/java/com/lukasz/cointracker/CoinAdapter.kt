@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.lukasz.cointracker.databinding.ListCoinItemBinding
-import com.lukasz.cointracker.network.Coin
+import com.lukasz.cointracker.domain.Coin
 
 class CoinAdapter(val clickListener: CoinListener): ListAdapter<Coin, CoinAdapter.CoinViewHolder>(CoinDiffCallback()) {
 

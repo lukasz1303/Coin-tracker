@@ -21,7 +21,7 @@
         tools:layout="@layout/fragment_detail">
     <argument
         android:name="selectedCoin"
-        app:argType="com.lukasz.cointracker.network.Coin"
+        app:argType="com.lukasz.cointracker.domain.Coin"
         />
     </fragment>
 </navigation>

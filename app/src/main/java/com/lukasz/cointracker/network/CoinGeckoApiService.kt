@@ -22,11 +22,9 @@ private val retrofit = Retrofit.Builder()
 
 interface CoinGeckoApiService {
     @GET("coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false&price_change_percentage=1h%2C24h%2C7d")
-    fun getCoins(): Deferred<List<Coin>>
+    fun getCoins(): Deferred<List<NetworkCoin>>
 }
 
 object CoinGeckoApi {
-    val retrofitServiceCoinGecko : CoinGeckoApiService by lazy {
-        retrofit.create(CoinGeckoApiService::class.java)
+    val retrofitServiceCoinGecko: CoinGeckoApiService = retrofit.create(CoinGeckoApiService::class.java)
     }
-}

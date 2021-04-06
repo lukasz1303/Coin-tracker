@@ -8,18 +8,17 @@ import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.RequestBuilder
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.RequestOptions
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.util.*
 import kotlin.math.ceil
 import kotlin.math.log10
 import com.bumptech.glide.request.target.Target
-import com.lukasz.cointracker.network.Coin
+import com.lukasz.cointracker.domain.Coin
+import com.lukasz.cointracker.network.NetworkCoin
 
 @BindingAdapter("listData")
 fun bindRecyclerView(recyclerView: RecyclerView, coins: List<Coin>?) {
