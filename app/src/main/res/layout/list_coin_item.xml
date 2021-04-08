@@ -55,7 +55,7 @@
                 android:textColor="@color/black"
                 android:ellipsize="end"
                 android:maxWidth="130dp"
-                app:coinName="@{viewHolder.id}"
+                android:text="@{viewHolder.name}"
                 tools:text="Bitcoin"
                 android:singleLine="true" />
 

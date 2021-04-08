@@ -17,10 +17,10 @@
 
         <ImageView
             android:id="@+id/icon_image_detail"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:layout_marginTop="16dp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
             android:contentDescription="@string/coin_symbol"
             app:imageUrl="@{viewModel.selectedCoin.image}"
@@ -36,9 +36,9 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="4dp"
             android:textColor="@color/black"
-            android:textSize="20sp"
+            android:textSize="24sp"
             android:textStyle="bold"
-            app:coinName="@{String.valueOf(viewModel.selectedCoin.id)}"
+            android:text="@{String.valueOf(viewModel.selectedCoin.name)}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/symbol_text_view"
             app:layout_constraintHorizontal_bias="0.5"
@@ -55,176 +55,419 @@
             android:text="@{String.valueOf(viewModel.selectedCoin.symbol)}"
             android:textAllCaps="true"
             android:textColor="@color/gray"
-            android:textSize="14sp"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@id/name_text_view"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/name_text_view"
             tools:text="BTC" />
 
-        <View
-            android:id="@+id/line_separator_view"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/gray"
-            android:layout_marginTop="16dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintTop_toBottomOf="@id/name_text_view"
+
+        <LinearLayout
+            android:id="@+id/low_24h_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toStartOf="@+id/high_24h_layout"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/name_text_view">
+
+            <TextView
+                android:id="@+id/low_24h_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_margin="4dp"
+                android:textColor="@color/black"
+                app:priceInt="@{viewModel.selectedCoin.low_24h}"
+                tools:text="$55000" />
+
+            <TextView
+                android:id="@+id/label_low_24h_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:layout_margin="4dp"
+                android:text="@string/_24h_low" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/high_24h_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_marginTop="8dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/low_24h_layout"
+            app:layout_constraintTop_toBottomOf="@id/name_text_view">
+
+            <TextView
+                android:id="@+id/high_24h_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:priceInt="@{viewModel.selectedCoin.high_24h}"
+                tools:text="$60000" />
+
+            <TextView
+                android:id="@+id/label_high_24h_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:textSize="13sp"
+                android:text="@string/_24h_high" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/line_separator_view_header"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:background="@color/light_gray"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/low_24h_layout" />
 
         <TextView
             android:id="@+id/label_price_text_view"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="16dp"
             android:text="@string/price_label"
             android:textColor="@color/black"
             android:textSize="16sp"
-            app:layout_constraintEnd_toStartOf="@+id/price_textview"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintHorizontal_chainStyle="spread"
             app:layout_constraintHorizontal_weight="1"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/line_separator_view" />
+            app:layout_constraintTop_toBottomOf="@+id/line_separator_view_header" />
 
 
         <TextView
-            android:id="@+id/price_textview"
+            android:id="@+id/price_text_view"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
             android:textColor="@color/black"
             android:textSize="16sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintHorizontal_weight="2"
-            app:layout_constraintStart_toEndOf="@+id/label_price_text_view"
-            app:layout_constraintTop_toBottomOf="@+id/line_separator_view"
+            app:layout_constraintTop_toBottomOf="@+id/line_separator_view_header"
             app:price="@{viewModel.selectedCoin.current_price}"
             tools:text="$55123.05" />
 
+        <View
+            android:id="@+id/line_separator_view1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:background="@color/light_gray"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/price_text_view" />
+
         <TextView
-            android:id="@+id/label_1h_change__textview"
+            android:id="@+id/label_1h_change_text_view"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="16dp"
             android:text="@string/_1h_label"
             android:textColor="@color/black"
             android:textSize="16sp"
-            app:layout_constraintEnd_toStartOf="@+id/change_1h_textview"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintHorizontal_weight="1"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/label_price_text_view" />
+            app:layout_constraintTop_toBottomOf="@+id/line_separator_view1" />
 
         <TextView
-            android:id="@+id/change_1h_textview"
+            android:id="@+id/change_1h_text_view"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:textColor="@color/black"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:textColor="@{viewModel.selectedCoin.price_change_percentage_1h_in_currency >= 0 ? @color/green : @color/red}"
             android:textSize="16sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintHorizontal_weight="2"
-            app:layout_constraintStart_toEndOf="@+id/label_1h_change__textview"
-            app:layout_constraintTop_toBottomOf="@+id/price_textview"
+            app:layout_constraintTop_toBottomOf="@+id/line_separator_view1"
             app:percentage_change="@{viewModel.selectedCoin.price_change_percentage_1h_in_currency}"
             tools:text="5.05%" />
 
+        <View
+            android:id="@+id/line_separator_view2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:background="@color/light_gray"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/label_1h_change_text_view" />
+
         <TextView
-            android:id="@+id/label_24h_change__textview"
+            android:id="@+id/label_24h_change_text_view"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="16dp"
             android:text="@string/_24h_label"
             android:textColor="@color/black"
             android:textSize="16sp"
-            app:layout_constraintEnd_toStartOf="@+id/change_24h_textview"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintHorizontal_weight="1"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/label_1h_change__textview" />
+            app:layout_constraintTop_toBottomOf="@+id/line_separator_view2" />
 
         <TextView
-            android:id="@+id/change_24h_textview"
+            android:id="@+id/change_24h_text_view"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:textColor="@color/black"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:textColor="@{viewModel.selectedCoin.price_change_percentage_24h_in_currency >= 0 ? @color/green : @color/red}"
             android:textSize="16sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintHorizontal_weight="2"
-            app:layout_constraintStart_toEndOf="@+id/label_24h_change__textview"
-            app:layout_constraintTop_toBottomOf="@+id/change_1h_textview"
+            app:layout_constraintTop_toBottomOf="@+id/line_separator_view2"
             app:percentage_change="@{viewModel.selectedCoin.price_change_percentage_24h_in_currency}"
             tools:text="12.15%" />
 
+        <View
+            android:id="@+id/line_separator_view3"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:background="@color/light_gray"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/label_24h_change_text_view" />
+
         <TextView
-            android:id="@+id/label_market_cap_textview"
+            android:id="@+id/label_market_cap_text_view"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="16dp"
             android:text="@string/market_cap_label"
             android:textColor="@color/black"
             android:textSize="16sp"
-            app:layout_constraintEnd_toStartOf="@+id/market_cap_textview"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintHorizontal_weight="1"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/label_24h_change__textview" />
+            app:layout_constraintTop_toBottomOf="@+id/line_separator_view3" />
 
         <TextView
-            android:id="@+id/market_cap_textview"
+            android:id="@+id/market_cap_text_view"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
             android:textColor="@color/black"
             android:textSize="16sp"
-            app:billions="@{viewModel.selectedCoin.market_cap}"
+            android:textStyle="bold"
+            app:billionsDollars="@{viewModel.selectedCoin.market_cap}"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintHorizontal_weight="2"
-            app:layout_constraintStart_toEndOf="@+id/label_market_cap_textview"
-            app:layout_constraintTop_toBottomOf="@+id/change_24h_textview"
+            app:layout_constraintTop_toBottomOf="@+id/line_separator_view3"
             tools:text="$1'123'456'789" />
 
+        <View
+            android:id="@+id/line_separator_view4"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:background="@color/light_gray"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/label_market_cap_text_view" />
+
         <TextView
-            android:id="@+id/label_volume_textview"
+            android:id="@+id/label_volume_text_view"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="16dp"
             android:text="@string/volume_label"
             android:textColor="@color/black"
             android:textSize="16sp"
-            app:layout_constraintEnd_toStartOf="@+id/volume_text_view"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintHorizontal_weight="1"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/label_market_cap_textview" />
+            app:layout_constraintTop_toBottomOf="@+id/line_separator_view4" />
 
         <TextView
             android:id="@+id/volume_text_view"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
             android:textColor="@color/black"
             android:textSize="16sp"
-            app:billions="@{viewModel.selectedCoin.total_volume}"
+            android:textStyle="bold"
+            app:billionsDollars="@{viewModel.selectedCoin.total_volume}"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintHorizontal_weight="2"
-            app:layout_constraintStart_toEndOf="@+id/label_volume_textview"
-            app:layout_constraintTop_toBottomOf="@+id/market_cap_textview"
+            app:layout_constraintTop_toBottomOf="@+id/line_separator_view4"
             tools:text="$80'000'000" />
+
+        <View
+            android:id="@+id/line_separator_view5"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:background="@color/light_gray"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/label_volume_text_view" />
+
+        <TextView
+            android:id="@+id/label_circulating_supply_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/circulating_supply"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/line_separator_view5" />
+
+        <TextView
+            android:id="@+id/circulating_supply_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:billions="@{viewModel.selectedCoin.circulating_supply}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="2"
+            app:layout_constraintTop_toBottomOf="@+id/line_separator_view5"
+            tools:text="18,000,000" />
+
+        <View
+            android:id="@+id/line_separator_view6"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:background="@color/light_gray"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/label_circulating_supply_text_view" />
+
+        <TextView
+            android:id="@+id/label_max_supply_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/max_supply"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/line_separator_view6" />
+
+        <TextView
+            android:id="@+id/max_supply_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:billions="@{viewModel.selectedCoin.max_supply}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="2"
+            app:layout_constraintTop_toBottomOf="@+id/line_separator_view6"
+            tools:text="$21,000,000" />
+
+        <View
+            android:id="@+id/line_separator_view7"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:background="@color/light_gray"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/label_max_supply_text_view" />
+
+        <TextView
+            android:id="@+id/label_ath_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="26dp"
+            android:text="@string/all_time_high"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/line_separator_view7" />
+
+        <LinearLayout
+            android:id="@+id/ath_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintHorizontal_weight="2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/line_separator_view7">
+            <TextView
+                android:id="@+id/ath_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:layout_marginBottom="2dp"
+                android:textStyle="bold"
+                app:priceInt="@{viewModel.selectedCoin.ath}"
+                tools:text="$61711" />
+
+            <TextView
+                android:id="@+id/ath_date_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/gray"
+                android:layout_marginTop="2dp"
+                android:textSize="13sp"
+                app:date="@{viewModel.selectedCoin.ath_date}"
+                tools:text="13.03.2021" />
+        </LinearLayout>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

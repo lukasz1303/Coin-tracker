@@ -6,4 +6,10 @@
     <string name="market_cap_label">Market Cap</string>
     <string name="volume_label">Volume 24h</string>
     <string name="coin_symbol">Coin symbol</string>
+    <string name="_24h_high">24h high</string>
+    <string name="_24h_low">24h low</string>
+    <string name="circulating_supply">Circulating supply</string>
+    <string name="max_supply">Max supply</string>
+    <string name="all_time_high">All time high</string>
+    <string name="date">%d.%d.%d</string>
 </resources>
