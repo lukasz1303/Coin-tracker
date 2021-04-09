@@ -12,4 +12,6 @@
     <string name="max_supply">Max supply</string>
     <string name="all_time_high">All time high</string>
     <string name="date">%d.%d.%d</string>
+    <string name="market_cap">Market Cap</string>
+    <string name="_24h_change">24h change</string>
 </resources>

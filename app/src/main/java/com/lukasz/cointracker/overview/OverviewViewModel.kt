@@ -17,6 +17,10 @@ class OverviewViewModel (application: Application) : AndroidViewModel(applicatio
     private val viewModelJob = Job()
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
+    fun setOrder(order: Int) {
+        coinsRepository.setOrder(order)
+    }
+
     private val _navigateToSelectedCoin = MutableLiveData<Coin>()
     val navigateToSelectedCoin: LiveData<Coin>
         get() = _navigateToSelectedCoin
@@ -28,6 +32,7 @@ class OverviewViewModel (application: Application) : AndroidViewModel(applicatio
     fun displayCoinDetailsComplete() {
         _navigateToSelectedCoin.value = null
     }
+
 
     init{
         refreshDataFromRepository()

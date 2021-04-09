@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/market_cap_sort"
+        android:title="@string/market_cap" />
+    <item android:id="@+id/change_24h_sort"
+        android:title="@string/_24h_change" />
+</menu>
