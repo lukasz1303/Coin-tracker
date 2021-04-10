@@ -21,6 +21,10 @@ class OverviewViewModel (application: Application) : AndroidViewModel(applicatio
         coinsRepository.setOrder(order)
     }
 
+    fun setTop(top: Int) {
+        coinsRepository.setTop(top-100)
+    }
+
     private val _navigateToSelectedCoin = MutableLiveData<Coin>()
     val navigateToSelectedCoin: LiveData<Coin>
         get() = _navigateToSelectedCoin

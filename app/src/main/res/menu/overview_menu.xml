@@ -1,7 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/market_cap_sort"
-        android:title="@string/market_cap" />
-    <item android:id="@+id/change_24h_sort"
-        android:title="@string/_24h_change" />
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/sorting_menu"
+        android:title="@string/sorting"
+        app:showAsAction="never">
+        <menu>
+            <item
+                android:id="@+id/market_cap_sort"
+                android:title="@string/market_cap" />
+            <item
+                android:id="@+id/change_24h_sort"
+                android:title="@string/_24h_change" />
+        </menu>
+    </item>
+
+    <item
+        android:id="@+id/Filter"
+        android:title="@string/filter"
+        app:showAsAction="never">
+        <menu>
+            <item
+                android:id="@+id/top_100_menu"
+                android:title="@string/top_100" />
+            <item
+                android:id="@+id/top_200_menu"
+                android:title="@string/top_200" />
+            <item
+                android:id="@+id/top_300_menu"
+                android:title="@string/top_300" />
+            <item
+                android:id="@+id/top_400_menu"
+                android:title="@string/top_400" />
+            <item
+                android:id="@+id/top_500_menu"
+                android:title="@string/top_500" />
+        </menu>
+    </item>
 </menu>

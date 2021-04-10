@@ -7,6 +7,7 @@ import kotlinx.coroutines.Deferred
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Query
 
 
 private const val BASE_URL = "https://api.coingecko.com/api/v3/"
@@ -21,8 +22,8 @@ private val retrofit = Retrofit.Builder()
     .build()
 
 interface CoinGeckoApiService {
-    @GET("coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false&price_change_percentage=1h%2C24h%2C7d")
-    fun getCoins(): Deferred<List<NetworkCoin>>
+    @GET("coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&sparkline=false&price_change_percentage=1h%2C24h%2C7d")
+    fun getCoins(@Query("page") currentPage: Int): Deferred<List<NetworkCoin>>
 }
 
 object CoinGeckoApi {

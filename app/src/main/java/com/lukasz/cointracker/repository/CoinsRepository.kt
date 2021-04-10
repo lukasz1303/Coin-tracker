@@ -2,6 +2,7 @@ package com.lukasz.cointracker.repository
 
 import android.util.Log
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.lukasz.cointracker.database.CoinsDatabase
@@ -25,15 +26,35 @@ class CoinsRepository(private val database: CoinsDatabase) {
         _order.value = 1
     }
 
-    val coins: LiveData<List<Coin>> = Transformations.switchMap(_order) {
-        Transformations.map(database.coinDao.getCoins(_order.value!!)) {
+    private var _top = MutableLiveData<Int>()
+
+    fun setTop(top: Int) {
+        _top.value = top
+    }
+
+    init{
+        _order.value = 1
+        _top.value = 0
+    }
+
+    private val combinedValues = MediatorLiveData<Pair<Int?, Int?>>().apply {
+        addSource(_order) {
+            value = Pair(it, _top.value)
+        }
+        addSource(_top) {
+            value = Pair(_order.value, it)
+        }
+    }
+
+    val coins: LiveData<List<Coin>> = Transformations.switchMap(combinedValues) { pair ->
+        Transformations.map(database.coinDao.getCoins(pair.first!!,pair.second!!)) {
             it.asDomainModel()
         }
     }
 
         suspend fun refreshCoins() {
             withContext(Dispatchers.IO) {
-                val networkCoins = CoinGeckoApi.retrofitServiceCoinGecko.getCoins().await()
+                val networkCoins = CoinGeckoApi.retrofitServiceCoinGecko.getCoins(_top.value!!/100 + 1).await()
                 database.coinDao.insertAll(networkCoins.asDatabaseModel())
             }
         }

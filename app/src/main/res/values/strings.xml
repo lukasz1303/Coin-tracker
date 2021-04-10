@@ -14,4 +14,11 @@
     <string name="date">%d.%d.%d</string>
     <string name="market_cap">Market Cap</string>
     <string name="_24h_change">24h change</string>
+    <string name="top_100">Top 100</string>
+    <string name="top_200">Top 200</string>
+    <string name="top_300">Top 300</string>
+    <string name="top_400">Top 400</string>
+    <string name="top_500">Top 500</string>
+    <string name="sorting">Sorting</string>
+    <string name="filter">Filter</string>
 </resources>

@@ -42,6 +42,8 @@ class CoinAdapter(val clickListener: CoinListener): ListAdapter<Coin, CoinAdapte
         holder.bind(getItem(position)!!, clickListener)
     }
 
+
+
 }
 
 class CoinListener(val clickListener: (coin: Coin) -> Unit) {

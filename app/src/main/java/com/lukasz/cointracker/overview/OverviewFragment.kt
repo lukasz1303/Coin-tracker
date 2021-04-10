@@ -41,6 +41,21 @@ class OverviewFragment : Fragment() {
         if (item.itemId == R.id.change_24h_sort){
             viewModel.setOrder(0)
         }
+        if (item.itemId == R.id.top_100_menu) {
+            viewModel.setTop(100)
+        }
+        if (item.itemId == R.id.top_200_menu){
+            viewModel.setTop(200)
+        }
+        if (item.itemId == R.id.top_300_menu) {
+            viewModel.setTop(300)
+        }
+        if (item.itemId == R.id.top_400_menu){
+            viewModel.setTop(400)
+        }
+        if (item.itemId == R.id.top_500_menu) {
+            viewModel.setTop(500)
+        }
         return super.onOptionsItemSelected(item)
     }
 
@@ -61,6 +76,7 @@ class OverviewFragment : Fragment() {
         binding.coinList.adapter = CoinAdapter(CoinListener {
             viewModel.displayCoinDetails(it)
         })
+
 
         viewModel.navigateToSelectedCoin.observe(viewLifecycleOwner, {
             if (null != it) {
