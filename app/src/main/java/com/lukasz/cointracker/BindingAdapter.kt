@@ -48,6 +48,12 @@ fun convertPriceInt(textView: TextView, price: Double) {
     textView.text = text
 }
 
+@BindingAdapter("rank")
+fun rank(textView: TextView, d: Double) {
+    val text = d.toInt().toString() + "."
+    textView.text = text
+}
+
 @BindingAdapter("date")
 fun convertDate(textView: TextView, dateString: String?) {
     val dateArray = dateString?.split("-")

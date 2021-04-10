@@ -1,17 +1,11 @@
 package com.lukasz.cointracker.overview
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.*
-import android.view.View.inflate
-import androidx.core.content.res.ColorStateListInflaterCompat.inflate
-import androidx.core.content.res.ComplexColorCompat.inflate
-import androidx.core.graphics.drawable.DrawableCompat.inflate
-import androidx.databinding.DataBindingUtil.inflate
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import com.lukasz.cointracker.CoinAdapter
 import com.lukasz.cointracker.CoinListener
@@ -30,7 +24,7 @@ class OverviewFragment : Fragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.overview_menu, menu)
-        super.onCreateOptionsMenu(menu,inflater)
+        super.onCreateOptionsMenu(menu, inflater)
     }
 
 
@@ -43,18 +37,23 @@ class OverviewFragment : Fragment() {
         }
         if (item.itemId == R.id.top_100_menu) {
             viewModel.setTop(100)
+            viewModel.singleRefreshDataFromRepository()
         }
         if (item.itemId == R.id.top_200_menu){
             viewModel.setTop(200)
+            viewModel.singleRefreshDataFromRepository()
         }
         if (item.itemId == R.id.top_300_menu) {
             viewModel.setTop(300)
+            viewModel.singleRefreshDataFromRepository()
         }
         if (item.itemId == R.id.top_400_menu){
             viewModel.setTop(400)
+            viewModel.singleRefreshDataFromRepository()
         }
         if (item.itemId == R.id.top_500_menu) {
             viewModel.setTop(500)
+            viewModel.singleRefreshDataFromRepository()
         }
         return super.onOptionsItemSelected(item)
     }
@@ -72,6 +71,12 @@ class OverviewFragment : Fragment() {
         val manager = GridLayoutManager(activity, 1)
         binding.coinList.layoutManager = manager
 
+        binding.coinList.addItemDecoration(
+            DividerItemDecoration(
+                binding.coinList.context,
+                DividerItemDecoration.VERTICAL
+            )
+        )
 
         binding.coinList.adapter = CoinAdapter(CoinListener {
             viewModel.displayCoinDetails(it)

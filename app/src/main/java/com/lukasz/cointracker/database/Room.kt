@@ -10,7 +10,7 @@ import com.lukasz.cointracker.database.CoinsDatabase.Companion.MIGRATION_1_2
 
 @Dao
 interface CoinDao {
-    @Query("select * from (select * from databasecoin order by market_cap desc LIMIT 100 OFFSET :top ) order by CASE WHEN :order = 1 THEN market_cap END DESC, CASE WHEN :order = 0 THEN price_change_percentage_24h_in_currency END DESC")
+    @Query("select * from (select * from databasecoin where market_cap_rank > 0+:top and market_cap_rank <= :top+100 order by market_cap_rank) order by CASE WHEN :order = 1 THEN market_cap_rank END, CASE WHEN :order = 0 THEN price_change_percentage_24h_in_currency END DESC")
     fun getCoins(order: Int, top: Int): LiveData<List<DatabaseCoin>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

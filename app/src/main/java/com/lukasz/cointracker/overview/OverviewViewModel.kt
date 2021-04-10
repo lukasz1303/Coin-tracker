@@ -58,5 +58,16 @@ class OverviewViewModel (application: Application) : AndroidViewModel(applicatio
             }
         }
     }
+    fun singleRefreshDataFromRepository() {
+        coroutineScope.launch {
+            try {
+                coinsRepository.refreshCoins()
+                Log.i("OverviewViewModel", "Success: assets retrieved\n\n\n")
+
+            } catch (e: Exception){
+                Log.i("OverviewViewModel", "Failure: ${e.message}\n\n\n")
+            }
+        }
+    }
 
 }
