@@ -14,6 +14,11 @@
         android:layout_height="match_parent"
         tools:context="com.example.android.marsrealestate.MainActivity">
 
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_refresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/coin_list"
             android:layout_width="0dp"
@@ -24,6 +29,8 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:listitem="@layout/list_coin_item"
             app:listData="@{viewModel.coins}" />
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

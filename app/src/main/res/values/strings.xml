@@ -21,4 +21,6 @@
     <string name="top_500">Top 500</string>
     <string name="sorting">Sorting</string>
     <string name="filter">Filter</string>
+    <string name="refresh">Refresh</string>
+    <string name="refresh_failed_toast_message">"Refresh failed.Check your internet connection"</string>
 </resources>

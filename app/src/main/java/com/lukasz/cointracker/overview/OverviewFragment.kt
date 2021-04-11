@@ -1,16 +1,23 @@
 package com.lukasz.cointracker.overview
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import com.lukasz.cointracker.CoinAdapter
 import com.lukasz.cointracker.CoinListener
 import com.lukasz.cointracker.R
 import com.lukasz.cointracker.databinding.FragmentOverviewBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 
 class OverviewFragment : Fragment() {
@@ -37,23 +44,27 @@ class OverviewFragment : Fragment() {
         }
         if (item.itemId == R.id.top_100_menu) {
             viewModel.setTop(100)
-            viewModel.singleRefreshDataFromRepository()
+            updateCoins()
         }
         if (item.itemId == R.id.top_200_menu){
             viewModel.setTop(200)
-            viewModel.singleRefreshDataFromRepository()
+            updateCoins()
         }
         if (item.itemId == R.id.top_300_menu) {
             viewModel.setTop(300)
-            viewModel.singleRefreshDataFromRepository()
+            updateCoins()
         }
         if (item.itemId == R.id.top_400_menu){
             viewModel.setTop(400)
-            viewModel.singleRefreshDataFromRepository()
+            updateCoins()
         }
         if (item.itemId == R.id.top_500_menu) {
             viewModel.setTop(500)
-            viewModel.singleRefreshDataFromRepository()
+            updateCoins()
+        }
+        if (item.itemId == R.id.menu_refresh) {
+            binding.swipeRefresh.isRefreshing = true
+            updateCoins()
         }
         return super.onOptionsItemSelected(item)
     }
@@ -82,6 +93,11 @@ class OverviewFragment : Fragment() {
             viewModel.displayCoinDetails(it)
         })
 
+        binding.swipeRefresh.setOnRefreshListener {
+            updateCoins()
+        }
+
+
 
         viewModel.navigateToSelectedCoin.observe(viewLifecycleOwner, {
             if (null != it) {
@@ -96,4 +112,16 @@ class OverviewFragment : Fragment() {
         return binding.root
     }
 
+    private fun updateCoins(){
+        val job = Job()
+        CoroutineScope(job + Dispatchers.Main).launch {
+            val result = viewModel.singleRefreshDataFromRepository()
+            if (result == 2) {
+                Toast.makeText(context,
+                    R.string.refresh_failed_toast_message,
+                    Toast.LENGTH_SHORT).show()
+            }
+        }
+        binding.swipeRefresh.isRefreshing = false
+    }
 }

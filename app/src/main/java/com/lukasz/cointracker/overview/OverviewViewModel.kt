@@ -2,6 +2,7 @@ package com.lukasz.cointracker.overview
 
 import android.app.Application
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -37,7 +38,6 @@ class OverviewViewModel (application: Application) : AndroidViewModel(applicatio
         _navigateToSelectedCoin.value = null
     }
 
-
     init{
         refreshDataFromRepository()
     }
@@ -58,16 +58,21 @@ class OverviewViewModel (application: Application) : AndroidViewModel(applicatio
             }
         }
     }
-    fun singleRefreshDataFromRepository() {
+    suspend fun singleRefreshDataFromRepository(): Int {
+        var res = 0
         coroutineScope.launch {
-            try {
+            res = try {
                 coinsRepository.refreshCoins()
                 Log.i("OverviewViewModel", "Success: assets retrieved\n\n\n")
+                1
 
-            } catch (e: Exception){
+            } catch (e: Exception) {
                 Log.i("OverviewViewModel", "Failure: ${e.message}\n\n\n")
+                2
             }
-        }
+        }.join()
+
+        return res
     }
 
 }
