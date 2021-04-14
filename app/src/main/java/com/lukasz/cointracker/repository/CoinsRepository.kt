@@ -32,9 +32,16 @@ class CoinsRepository(private val database: CoinsDatabase) {
         _top.value = top
     }
 
+    private var _searchedName = MutableLiveData<String>()
+
+    fun setSearchedName(name: String) {
+        _searchedName.value = name
+    }
+
     init{
         _order.value = 1
         _top.value = 0
+        _searchedName.value= ""
     }
 
     private val combinedValues = MediatorLiveData<Pair<Int?, Int?>>().apply {
@@ -48,6 +55,12 @@ class CoinsRepository(private val database: CoinsDatabase) {
 
     val coins: LiveData<List<Coin>> = Transformations.switchMap(combinedValues) { pair ->
         Transformations.map(database.coinDao.getCoins(pair.first!!,pair.second!!)) {
+            it.asDomainModel()
+        }
+    }
+
+    val searchedCoins: LiveData<List<Coin>> = Transformations.switchMap(_searchedName) {
+        Transformations.map(database.coinDao.getSelectedCoins(_searchedName.value!!)) {
             it.asDomainModel()
         }
     }

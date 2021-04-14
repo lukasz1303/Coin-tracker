@@ -12,6 +12,8 @@ import com.lukasz.cointracker.database.CoinsDatabase.Companion.MIGRATION_1_2
 interface CoinDao {
     @Query("select * from (select * from databasecoin where market_cap_rank > 0+:top and market_cap_rank <= :top+100 order by market_cap_rank) order by CASE WHEN :order = 1 THEN market_cap_rank END, CASE WHEN :order = 0 THEN price_change_percentage_24h_in_currency END DESC")
     fun getCoins(order: Int, top: Int): LiveData<List<DatabaseCoin>>
+    @Query("select * from databasecoin where name like '%' || :name || '%' or symbol like '%' || :name || '%' order by market_cap desc limit 20")
+    fun getSelectedCoins(name: String): LiveData<List<DatabaseCoin>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(videos: List<DatabaseCoin>)

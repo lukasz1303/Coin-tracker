@@ -1,11 +1,13 @@
 package com.lukasz.cointracker.overview
 
+import android.app.Activity
 import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
@@ -18,6 +20,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import java.util.*
 
 
 class OverviewFragment : Fragment() {
@@ -66,6 +69,9 @@ class OverviewFragment : Fragment() {
             binding.swipeRefresh.isRefreshing = true
             updateCoins()
         }
+        if(item.itemId == R.id.menu_search){
+            Navigation.findNavController(binding.root).navigate(R.id.action_overviewFragment_to_searchFragment)
+        }
         return super.onOptionsItemSelected(item)
     }
 
@@ -96,7 +102,7 @@ class OverviewFragment : Fragment() {
         binding.swipeRefresh.setOnRefreshListener {
             updateCoins()
         }
-
+        binding.coinList.setHasFixedSize(true)
 
 
         viewModel.navigateToSelectedCoin.observe(viewLifecycleOwner, {
