@@ -5,11 +5,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
+import androidx.room.util.StringUtil
 import com.lukasz.cointracker.database.CoinsDatabase
 import com.lukasz.cointracker.database.DatabaseCoin
 import com.lukasz.cointracker.database.asDomainModel
 import com.lukasz.cointracker.domain.Coin
 import com.lukasz.cointracker.network.CoinGeckoApi
+import com.lukasz.cointracker.network.NetworkCoin
 import com.lukasz.cointracker.network.asDatabaseModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -22,7 +24,7 @@ class CoinsRepository(private val database: CoinsDatabase) {
         _order.value = order
     }
 
-    init{
+    init {
         _order.value = 1
     }
 
@@ -38,10 +40,10 @@ class CoinsRepository(private val database: CoinsDatabase) {
         _searchedName.value = name
     }
 
-    init{
+    init {
         _order.value = 1
         _top.value = 0
-        _searchedName.value= ""
+        _searchedName.value = ""
     }
 
     private val combinedValues = MediatorLiveData<Pair<Int?, Int?>>().apply {
@@ -54,7 +56,7 @@ class CoinsRepository(private val database: CoinsDatabase) {
     }
 
     val coins: LiveData<List<Coin>> = Transformations.switchMap(combinedValues) { pair ->
-        Transformations.map(database.coinDao.getCoins(pair.first!!,pair.second!!)) {
+        Transformations.map(database.coinDao.getCoins(pair.first!!, pair.second!!)) {
             it.asDomainModel()
         }
     }
@@ -65,10 +67,29 @@ class CoinsRepository(private val database: CoinsDatabase) {
         }
     }
 
-        suspend fun refreshCoins() {
-            withContext(Dispatchers.IO) {
-                val networkCoins = CoinGeckoApi.retrofitServiceCoinGecko.getCoins(_top.value!!/100 + 1).await()
-                database.coinDao.insertAll(networkCoins.asDatabaseModel())
-            }
+    suspend fun refreshCoins() {
+        withContext(Dispatchers.IO) {
+            val networkCoins =
+                CoinGeckoApi.retrofitServiceCoinGecko.getCoins(_top.value!! / 100 + 1).await()
+            database.coinDao.insertAll(networkCoins.asDatabaseModel())
         }
+    }
+
+    suspend fun getListOfCoins() {
+        withContext(Dispatchers.IO) {
+            val networkCoins =
+                CoinGeckoApi.retrofitServiceCoinGecko.getListOfAllCoins().await()
+            database.coinDao.insertAllCoinsIds(networkCoins.asDatabaseModel())
+        }
+    }
+
+    suspend fun getSearchedCoinsData() {
+        withContext(Dispatchers.IO) {
+            val ids = database.coinDao.getSelectedIds(_searchedName.value!!)
+            val queryIds = ids.joinToString(separator = ",")
+            val networkCoins =
+                CoinGeckoApi.retrofitServiceCoinGecko.getSearchedCoinsData(queryIds).await()
+            database.coinDao.insertAll(networkCoins.asDatabaseModel())
+        }
+    }
 }

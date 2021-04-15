@@ -36,4 +36,15 @@ class SearchViewModel (application: Application) : AndroidViewModel(application)
     val searchedCoin = coinsRepository.searchedCoins
 
 
+    suspend fun refreshSearchedDataFromRepository() {
+        coroutineScope.launch {
+            try {
+                coinsRepository.getSearchedCoinsData()
+                Log.i("OverviewViewModel", "Success: searched assets retrieved\n\n\n")
+
+            } catch (e: Exception) {
+                Log.i("OverviewViewModel", "Failure: ${e.message}\n\n\n")
+            }
+        }
+    }
 }

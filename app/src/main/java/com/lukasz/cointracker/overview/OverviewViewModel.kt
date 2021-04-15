@@ -39,6 +39,7 @@ class OverviewViewModel (application: Application) : AndroidViewModel(applicatio
     }
 
     init{
+        getListOfCoins()
         refreshDataFromRepository()
     }
 
@@ -49,12 +50,12 @@ class OverviewViewModel (application: Application) : AndroidViewModel(applicatio
             while (true){
                 try {
                     coinsRepository.refreshCoins()
-                    Log.i("OverviewViewModel", "Success: assets retrieved\n\n\n")
+                    Log.i("OverviewViewModel", "Success: assets retrieved")
 
                 } catch (e: Exception){
-                    Log.i("OverviewViewModel", "Failure: ${e.message}\n\n\n")
+                    Log.i("OverviewViewModel", "Failure: ${e.message}")
                 }
-                delay(15000)
+                delay(5000)
             }
         }
     }
@@ -63,11 +64,11 @@ class OverviewViewModel (application: Application) : AndroidViewModel(applicatio
         coroutineScope.launch {
             res = try {
                 coinsRepository.refreshCoins()
-                Log.i("OverviewViewModel", "Success: assets retrieved\n\n\n")
+                Log.i("OverviewViewModel", "Success: assets retrieved")
                 1
 
             } catch (e: Exception) {
-                Log.i("OverviewViewModel", "Failure: ${e.message}\n\n\n")
+                Log.i("OverviewViewModel", "Failure: ${e.message}")
                 2
             }
         }.join()
@@ -75,4 +76,15 @@ class OverviewViewModel (application: Application) : AndroidViewModel(applicatio
         return res
     }
 
+    private fun getListOfCoins() {
+        coroutineScope.launch {
+           try {
+                coinsRepository.getListOfCoins()
+                Log.i("OverviewViewModel", "Success: list of coins retrieved")
+
+            } catch (e: Exception) {
+                Log.i("OverviewViewModel", "Failure: ${e.message}")
+            }
+        }
+    }
 }

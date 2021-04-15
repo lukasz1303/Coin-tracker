@@ -50,8 +50,13 @@ fun convertPriceInt(textView: TextView, price: Double) {
 
 @BindingAdapter("rank")
 fun rank(textView: TextView, d: Double) {
-    val text = d.toInt().toString() + "."
-    textView.text = text
+    if (d != 0.0){
+        val text = d.toInt().toString() + "."
+        textView.text = text
+        textView.visibility = View.VISIBLE
+    } else{
+        textView.visibility = View.GONE
+    }
 }
 
 @BindingAdapter("date")
@@ -135,5 +140,7 @@ fun bindImage(imgView: ImageView, imageUrl: String?) {
                 }
             })
             .into(imgView)
+    } else{
+        imgView.visibility = View.GONE
     }
 }
