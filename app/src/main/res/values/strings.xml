@@ -25,4 +25,6 @@
     <string name="refresh_failed_toast_message">"Refresh failed.Check your internet connection"</string>
     <string name="search_hint">Bitcoin</string>
     <string name="search">Search</string>
+    <string name="_7d_label">7d %</string>
+    <string name="search_image_description">Search button</string>
 </resources>

@@ -55,7 +55,7 @@ class OverviewViewModel (application: Application) : AndroidViewModel(applicatio
                 } catch (e: Exception){
                     Log.i("OverviewViewModel", "Failure: ${e.message}")
                 }
-                delay(5000)
+                delay(10000)
             }
         }
     }

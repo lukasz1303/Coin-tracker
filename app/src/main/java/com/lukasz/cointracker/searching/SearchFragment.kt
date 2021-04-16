@@ -9,12 +9,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import com.lukasz.cointracker.CoinAdapter
 import com.lukasz.cointracker.CoinListener
 import com.lukasz.cointracker.R
 import com.lukasz.cointracker.databinding.FragmentSearchBinding
+import com.lukasz.cointracker.overview.OverviewFragmentDirections
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -67,6 +69,15 @@ class SearchFragment : Fragment() {
             override fun afterTextChanged(s: Editable?) {
             }
 
+        })
+
+        viewModel.navigateToSelectedCoin.observe(viewLifecycleOwner, {
+            if (null != it) {
+                this.findNavController().navigate(
+                    SearchFragmentDirections.actionSearchFragmentToDetailFragment(it)
+                )
+                viewModel.displayCoinDetailsComplete()
+            }
         })
 
         setHasOptionsMenu(true)

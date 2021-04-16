@@ -74,7 +74,7 @@
                 android:layout_marginEnd="3dp"
                 android:textColor="@color/black"
                 android:ellipsize="end"
-                android:maxWidth="130dp"
+                android:maxWidth="140dp"
                 android:text="@{viewHolder.name}"
                 tools:text="Bitcoin"
                 android:singleLine="true" />
@@ -115,11 +115,11 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/item_percentage_change_text_view"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintHorizontal_weight="3"
+            app:layout_constraintHorizontal_weight="2.5"
             app:layout_constraintStart_toEndOf="@+id/nameAndSymbolLinearLayout"
             app:layout_constraintTop_toTopOf="parent"
             app:price="@{viewHolder.current_price}"
-            tools:text="50000.15" />
+            tools:text="$500000" />
 
         <TextView
             android:id="@+id/item_percentage_change_text_view"
@@ -135,7 +135,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintHorizontal_weight="2.1"
+            app:layout_constraintHorizontal_weight="2.3"
             app:layout_constraintStart_toEndOf="@+id/item_price_text_view"
             app:layout_constraintTop_toTopOf="parent"
             android:textColor="@{viewHolder.price_change_percentage_24h_in_currency >= 0 ? @color/green : @color/red}"

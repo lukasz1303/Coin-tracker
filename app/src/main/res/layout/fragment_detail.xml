@@ -83,7 +83,7 @@
                 android:textStyle="bold"
                 android:layout_margin="4dp"
                 android:textColor="@color/black"
-                app:priceInt="@{viewModel.selectedCoin.low_24h}"
+                app:price="@{viewModel.selectedCoin.low_24h}"
                 tools:text="$55000" />
 
             <TextView
@@ -116,7 +116,7 @@
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                app:priceInt="@{viewModel.selectedCoin.high_24h}"
+                app:price="@{viewModel.selectedCoin.high_24h}"
                 tools:text="$60000" />
 
             <TextView
@@ -268,7 +268,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:text="@string/_24h_label"
+            android:text="@string/_7d_label"
             android:textColor="@color/black"
             android:textSize="16sp"
             app:layout_constraintHorizontal_weight="1"
@@ -288,7 +288,7 @@
             app:layout_constraintHorizontal_weight="2"
             app:layout_constraintTop_toBottomOf="@+id/line_separator_view8"
             app:percentage_change="@{viewModel.selectedCoin.price_change_percentage_7d_in_currency}"
-            tools:text="12.15%" />
+            tools:text="42.11%" />
 
         <View
             android:id="@+id/line_separator_view3"
@@ -324,7 +324,7 @@
             android:textColor="@color/black"
             android:textSize="16sp"
             android:textStyle="bold"
-            app:billionsDollars="@{viewModel.selectedCoin.market_cap}"
+            app:convertBigNumberInDollars="@{viewModel.selectedCoin.market_cap}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_weight="2"
             app:layout_constraintTop_toBottomOf="@+id/line_separator_view3"
@@ -364,7 +364,7 @@
             android:textColor="@color/black"
             android:textSize="16sp"
             android:textStyle="bold"
-            app:billionsDollars="@{viewModel.selectedCoin.total_volume}"
+            app:convertBigNumberInDollars="@{viewModel.selectedCoin.total_volume}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_weight="2"
             app:layout_constraintTop_toBottomOf="@+id/line_separator_view4"
@@ -404,7 +404,7 @@
             android:textColor="@color/black"
             android:textSize="16sp"
             android:textStyle="bold"
-            app:billions="@{viewModel.selectedCoin.circulating_supply}"
+            app:convertBigNumber="@{viewModel.selectedCoin.circulating_supply}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_weight="2"
             app:layout_constraintTop_toBottomOf="@+id/line_separator_view5"
@@ -444,7 +444,7 @@
             android:textColor="@color/black"
             android:textSize="16sp"
             android:textStyle="bold"
-            app:billions="@{viewModel.selectedCoin.max_supply}"
+            app:convertBigNumber="@{viewModel.selectedCoin.max_supply}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_weight="2"
             app:layout_constraintTop_toBottomOf="@+id/line_separator_view6"
@@ -494,7 +494,7 @@
                 android:textSize="16sp"
                 android:layout_marginBottom="2dp"
                 android:textStyle="bold"
-                app:priceInt="@{viewModel.selectedCoin.ath}"
+                app:price="@{viewModel.selectedCoin.ath}"
                 tools:text="$61711" />
 
             <TextView

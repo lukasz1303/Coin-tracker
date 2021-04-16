@@ -30,20 +30,16 @@ fun bindRecyclerView(recyclerView: RecyclerView, coins: List<Coin>?) {
 fun convertPrice(textView: TextView, price: Double) {
     val formatter =
         DecimalFormat("#.##", DecimalFormatSymbols.getInstance(Locale.ENGLISH))
-    formatter.minimumFractionDigits = 2
-    val significantDigit = ceil(-log10(price)).toInt()
-    formatter.maximumFractionDigits = if (2 > significantDigit) 2 else significantDigit + 1
-    val text = "$" + formatter.format(price)
-    textView.text = text
-}
+    if(price>=1000){
+        formatter.minimumFractionDigits = 0
+        formatter.maximumFractionDigits = 0
+    }
+    else{
+        formatter.minimumFractionDigits = 2
+        val significantDigit = ceil(-log10(price)).toInt()
+        formatter.maximumFractionDigits = if (3 > significantDigit) 3 else significantDigit + 2
+    }
 
-@BindingAdapter("priceInt")
-fun convertPriceInt(textView: TextView, price: Double) {
-    val formatter =
-        DecimalFormat("#.##", DecimalFormatSymbols.getInstance(Locale.ENGLISH))
-    formatter.minimumFractionDigits = 0
-    val significantDigit = ceil(-log10(price)).toInt()
-    formatter.maximumFractionDigits = if (2 > significantDigit) 2 else significantDigit + 1
     val text = "$" + formatter.format(price)
     textView.text = text
 }
@@ -80,22 +76,22 @@ fun convertPercentageChange(textView: TextView, percentage_change: Double) {
     textView.text = text
 }
 
-@BindingAdapter("billionsDollars")
-fun convertBigValuesInDollars(textView: TextView, value: Double) {
+@BindingAdapter("convertBigNumberInDollars")
+fun convertBigNumberInDollars(textView: TextView, number: Double) {
     val formatter =
         DecimalFormat("###,###,###,###", DecimalFormatSymbols.getInstance(Locale.ENGLISH))
-    var text = "$" + formatter.format(value)
+    var text = "$" + formatter.format(number)
     if (text.compareTo("$0") == 0) {
         text = "-"
     }
     textView.text = text
 }
 
-@BindingAdapter("billions")
-fun convertBigValues(textView: TextView, value: Double) {
+@BindingAdapter("convertBigNumber")
+fun convertBigNumber(textView: TextView, number: Double) {
     val formatter =
         DecimalFormat("###,###,###,###", DecimalFormatSymbols.getInstance(Locale.ENGLISH))
-    var text = formatter.format(value)
+    var text = formatter.format(number)
     if (text.compareTo("0") == 0) {
         text = "-"
     }
