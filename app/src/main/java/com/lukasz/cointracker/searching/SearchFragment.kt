@@ -7,16 +7,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import com.lukasz.cointracker.CoinAdapter
 import com.lukasz.cointracker.CoinListener
-import com.lukasz.cointracker.R
 import com.lukasz.cointracker.databinding.FragmentSearchBinding
-import com.lukasz.cointracker.overview.OverviewFragmentDirections
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -54,8 +51,6 @@ class SearchFragment : Fragment() {
             viewModel.displayCoinDetails(it)
         })
         binding.searchedCoinList.setHasFixedSize(true)
-
-        updateSearchedCoins()
 
         binding.searchedCoinNameEditText.addTextChangedListener(object: TextWatcher{
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
