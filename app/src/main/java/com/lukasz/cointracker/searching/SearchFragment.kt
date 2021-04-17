@@ -1,12 +1,16 @@
 package com.lukasz.cointracker.searching
 
+import android.content.Context
+import android.content.Context.INPUT_METHOD_SERVICE
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
+import androidx.core.content.ContextCompat.getSystemService
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -18,6 +22,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+
 
 class SearchFragment : Fragment() {
 
@@ -52,7 +57,7 @@ class SearchFragment : Fragment() {
         })
         binding.searchedCoinList.setHasFixedSize(true)
 
-        binding.searchedCoinNameEditText.addTextChangedListener(object: TextWatcher{
+        binding.searchedCoinNameEditText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
 
@@ -82,7 +87,15 @@ class SearchFragment : Fragment() {
     private fun updateSearchedCoins() {
         val job = Job()
         CoroutineScope(job + Dispatchers.Main).launch {
-           viewModel.refreshSearchedDataFromRepository()
+            viewModel.refreshSearchedDataFromRepository()
         }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.searchedCoinNameEditText.requestFocus()
+        val inputMethodManager: InputMethodManager =
+            this.context?.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.showSoftInput(binding.searchedCoinNameEditText, InputMethodManager.SHOW_IMPLICIT)
     }
 }
