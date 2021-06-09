@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View" />
         <variable
             name="viewModel"
             type="com.lukasz.cointracker.overview.OverviewViewModel" />
@@ -31,6 +32,31 @@
             app:listData="@{viewModel.coins}" />
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+        <TextView
+            android:id="@+id/empty_view_overview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxWidth="250dp"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:text="@string/can_t_load_coins_please_check_your_internet_connection"
+            android:textColor="@color/text_color"
+            android:visibility="@{viewModel.coins.size == 0 &amp;&amp; !viewModel.coinsRefreshing ? View.VISIBLE : View.GONE}"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ProgressBar
+            android:id="@+id/progress_bar_overview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="@{viewModel.coinsRefreshing ? View.VISIBLE : View.GONE}"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

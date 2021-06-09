@@ -18,6 +18,12 @@ class OverviewViewModel (application: Application) : AndroidViewModel(applicatio
     private val viewModelJob = Job()
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
+
+
+    private val _coinsRefreshing = MutableLiveData<Boolean>()
+    val coinsRefreshing: LiveData<Boolean>
+        get() = _coinsRefreshing
+
     fun setOrder(order: Int) {
         coinsRepository.setOrder(order)
     }
@@ -48,6 +54,9 @@ class OverviewViewModel (application: Application) : AndroidViewModel(applicatio
     private fun refreshDataFromRepository() {
         coroutineScope.launch {
             while (true){
+                if (!coinsRepository.allCoinsLoaded.value!!){
+                    getListOfCoins()
+                }
                 try {
                     coinsRepository.refreshCoins()
                     Log.i("OverviewViewModel", "Success: assets retrieved")
@@ -60,6 +69,7 @@ class OverviewViewModel (application: Application) : AndroidViewModel(applicatio
         }
     }
     suspend fun singleRefreshDataFromRepository(): Int {
+        _coinsRefreshing.value = true
         var res = 0
         coroutineScope.launch {
             res = try {
@@ -72,18 +82,19 @@ class OverviewViewModel (application: Application) : AndroidViewModel(applicatio
                 2
             }
         }.join()
-
+        _coinsRefreshing.value = false
         return res
     }
 
     private fun getListOfCoins() {
         coroutineScope.launch {
            try {
-                coinsRepository.getListOfCoins()
-                Log.i("OverviewViewModel", "Success: list of coins retrieved")
+               coinsRepository.getListOfCoins()
+               Log.i("OverviewViewModel", "Success: list of coins retrieved")
+               coinsRepository.setAllCoinsLoaded(true)
 
             } catch (e: Exception) {
-                Log.i("OverviewViewModel", "Failure: ${e.message}")
+                Log.i("OverviewViewModel", "Failure List: ${e.message}")
             }
         }
     }

@@ -17,6 +17,10 @@ class SearchViewModel (application: Application) : AndroidViewModel(application)
     private val viewModelJob = Job()
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
+    private val _coinsRefreshing = MutableLiveData<Boolean>()
+    val coinsRefreshing: LiveData<Boolean>
+        get() = _coinsRefreshing
+
     fun setSearchedName(name: String) {
         coinsRepository.setSearchedName(name)
     }
@@ -37,14 +41,26 @@ class SearchViewModel (application: Application) : AndroidViewModel(application)
 
 
     suspend fun refreshSearchedDataFromRepository() {
+        _coinsRefreshing.value = true
         coroutineScope.launch {
             try {
+                if (!coinsRepository.allCoinsLoaded.value!!){
+                    try {
+                        coinsRepository.getListOfCoins()
+                        Log.i("SearchViewModel", "Success: list of coins retrieved")
+                        coinsRepository.setAllCoinsLoaded(true)
+
+                    } catch (e: Exception) {
+                        Log.i("SearchViewModel", "Failure List: ${e.message}")
+                    }
+                }
                 coinsRepository.getSearchedCoinsData()
-                Log.i("OverviewViewModel", "Success: searched assets retrieved\n\n\n")
+                Log.i("SearchViewModel", "Success: searched assets retrieved\n\n\n")
 
             } catch (e: Exception) {
-                Log.i("OverviewViewModel", "Failure: ${e.message}\n\n\n")
+                Log.i("SearchViewModel", "Failure: ${e.message}\n\n\n")
             }
         }
+        _coinsRefreshing.value = false
     }
 }

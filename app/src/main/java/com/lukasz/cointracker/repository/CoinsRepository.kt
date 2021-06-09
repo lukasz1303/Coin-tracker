@@ -19,6 +19,12 @@ import kotlinx.coroutines.withContext
 class CoinsRepository(private val database: CoinsDatabase) {
 
     private var _order = MutableLiveData<Int>()
+    private var _allCoinsLoaded = MutableLiveData<Boolean>()
+    val allCoinsLoaded: LiveData<Boolean>
+        get() = _allCoinsLoaded
+    fun setAllCoinsLoaded(loaded: Boolean) {
+        _allCoinsLoaded.value = loaded
+    }
 
     fun setOrder(order: Int) {
         _order.value = order
@@ -41,6 +47,7 @@ class CoinsRepository(private val database: CoinsDatabase) {
     }
 
     init {
+        _allCoinsLoaded.value = false
         _order.value = 1
         _top.value = 0
         _searchedName.value = ""

@@ -21,9 +21,9 @@ interface CoinDao {
     fun getSelectedIds(name: String): List<String>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll(videos: List<DatabaseCoin>)
+    fun insertAll(coins: List<DatabaseCoin>)
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insertAllCoinsIds(videos: List<DatabaseCoin>)
+    fun insertAllCoinsIds(coins: List<DatabaseCoin>)
 
 }
 
