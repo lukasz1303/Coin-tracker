@@ -20,17 +20,37 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/header_constraint_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="70dp" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="70dp" />
             <ImageView
                 android:id="@+id/icon_image_detail"
-                android:layout_width="32dp"
+                android:layout_width="wrap_content"
                 android:layout_height="32dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
                 android:layout_marginEnd="8dp"
                 android:contentDescription="@string/coin_symbol"
                 app:imageUrl="@{viewModel.selectedCoin.image}"
                 app:layout_constraintBottom_toBottomOf="@+id/name_text_view"
                 app:layout_constraintEnd_toStartOf="@+id/name_text_view"
+                app:layout_constraintHorizontal_chainStyle="packed"
                 tools:src="@mipmap/ic_launcher_round" />
 
             <TextView
@@ -40,32 +60,35 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="4dp"
+                app:layout_constrainedWidth="true"
+                android:gravity="center"
                 android:text="@{String.valueOf(viewModel.selectedCoin.name)}"
                 android:textColor="@color/black"
                 android:textSize="24sp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/symbol_text_view"
+                app:layout_constraintEnd_toEndOf="@id/guideline3"
+                app:layout_constraintStart_toStartOf="@id/guideline2"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintStart_toEndOf="@+id/icon_image_detail"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Bitcoin" />
 
             <TextView
                 android:id="@+id/symbol_text_view"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                app:layout_constraintHorizontal_weight="1"
                 android:text="@{String.valueOf(viewModel.selectedCoin.symbol)}"
                 android:textAllCaps="true"
                 android:textColor="@color/gray"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="@id/name_text_view"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/name_text_view"
                 tools:text="BTC" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 
             <LinearLayout
@@ -78,7 +101,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/high_24h_layout"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/name_text_view">
+                app:layout_constraintTop_toBottomOf="@id/header_constraint_layout">
 
                 <TextView
                     android:id="@+id/low_24h_text_view"
@@ -111,7 +134,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/low_24h_layout"
-                app:layout_constraintTop_toBottomOf="@id/name_text_view">
+                app:layout_constraintTop_toBottomOf="@id/header_constraint_layout">
 
                 <TextView
                     android:id="@+id/high_24h_text_view"
@@ -547,14 +570,36 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:paddingBottom="16dp"
+                android:text="@{viewModel.selectedCoin.last_updated}"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:text="@{viewModel.selectedCoin.last_updated}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_weight="2"
                 app:layout_constraintTop_toBottomOf="@+id/line_separator_view9"
                 tools:text="2021-01-01 12:00:00" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:background="@drawable/rectangle_background"
+                android:drawablePadding="16dp"
+                android:gravity="center"
+                android:onClick="@{() -> viewModel.displayInWebBrowser(viewModel.selectedCoin.name)}"
+                android:paddingStart="32dp"
+                android:paddingTop="16dp"
+                android:paddingEnd="32dp"
+                android:paddingBottom="16dp"
+                android:text="@string/find_out_more"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/last_updated_text_view"
+                app:layout_constraintVertical_bias="1.0" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
