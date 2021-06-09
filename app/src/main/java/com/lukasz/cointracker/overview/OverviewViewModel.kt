@@ -72,6 +72,9 @@ class OverviewViewModel (application: Application) : AndroidViewModel(applicatio
         _coinsRefreshing.value = true
         var res = 0
         coroutineScope.launch {
+            if (!coinsRepository.allCoinsLoaded.value!!){
+                getListOfCoins()
+            }
             res = try {
                 coinsRepository.refreshCoins()
                 Log.i("OverviewViewModel", "Success: assets retrieved")

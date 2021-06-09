@@ -44,16 +44,6 @@ class SearchViewModel (application: Application) : AndroidViewModel(application)
         _coinsRefreshing.value = true
         coroutineScope.launch {
             try {
-                if (!coinsRepository.allCoinsLoaded.value!!){
-                    try {
-                        coinsRepository.getListOfCoins()
-                        Log.i("SearchViewModel", "Success: list of coins retrieved")
-                        coinsRepository.setAllCoinsLoaded(true)
-
-                    } catch (e: Exception) {
-                        Log.i("SearchViewModel", "Failure List: ${e.message}")
-                    }
-                }
                 coinsRepository.getSearchedCoinsData()
                 Log.i("SearchViewModel", "Success: searched assets retrieved\n\n\n")
 
