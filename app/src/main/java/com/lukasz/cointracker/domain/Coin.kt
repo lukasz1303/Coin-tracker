@@ -23,4 +23,5 @@ data class Coin(
     val ath: Double?,
     val ath_change_percentage: Double?,
     val ath_date: String?,
-    val total_volume: Double?) :Parcelable
+    val total_volume: Double?,
+    val last_updated: String?) :Parcelable

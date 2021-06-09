@@ -25,7 +25,8 @@ data class DatabaseCoin constructor(
     val ath: Double?,
     val ath_change_percentage: Double?,
     val ath_date: String?,
-    val total_volume: Double?)
+    val total_volume: Double?,
+    val last_updated: String?)
 
 fun List<DatabaseCoin>.asDomainModel(): List<Coin> {
     return map {
@@ -48,6 +49,7 @@ fun List<DatabaseCoin>.asDomainModel(): List<Coin> {
             ath = it.ath,
             ath_change_percentage = it.ath_change_percentage,
             ath_date = it.ath_date,
-            total_volume = it.total_volume)
+            total_volume = it.total_volume,
+            last_updated = it.last_updated)
     }
 }

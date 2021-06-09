@@ -6,11 +6,12 @@ import androidx.room.*
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.lukasz.cointracker.database.CoinsDatabase.Companion.MIGRATION_1_2
+import com.lukasz.cointracker.database.CoinsDatabase.Companion.MIGRATION_2_3
 
 
 @Dao
 interface CoinDao {
-    @Query("select * from (select * from databasecoin where market_cap_rank > 0+:top and market_cap_rank <= :top+100 order by market_cap_rank) order by CASE WHEN :order = 1 THEN market_cap_rank END, CASE WHEN :order = 0 THEN price_change_percentage_24h_in_currency END DESC")
+    @Query("select * from (select * from databasecoin where market_cap_rank > 0+:top and market_cap_rank <= :top+100 order by market_cap_rank) order by last_updated DESC, CASE WHEN :order = 1 THEN market_cap_rank END, CASE WHEN :order = 0 THEN price_change_percentage_24h_in_currency END DESC limit 100")
     fun getCoins(order: Int, top: Int): LiveData<List<DatabaseCoin>>
 
     @Query("select * from databasecoin where name like '%' || :name || '%' or symbol like '%' || :name || '%' order by market_cap desc limit 20")
@@ -26,7 +27,7 @@ interface CoinDao {
 
 }
 
-@Database(entities = [DatabaseCoin::class], version = 2)
+@Database(entities = [DatabaseCoin::class], version = 3)
 abstract class CoinsDatabase : RoomDatabase() {
     abstract val coinDao: CoinDao
 
@@ -72,6 +73,15 @@ abstract class CoinsDatabase : RoomDatabase() {
                 )
             }
         }
+
+        val MIGRATION_2_3: Migration = object : Migration(2, 3) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL(
+                    "ALTER TABLE databasecoin "
+                            + " ADD COLUMN last_updated TEXT"
+                )
+            }
+        }
     }
 }
 
@@ -85,6 +95,7 @@ fun getDatabase(context: Context): CoinsDatabase {
                 CoinsDatabase::class.java,
                 "coins"
             ).addMigrations(MIGRATION_1_2)
+                .addMigrations(MIGRATION_2_3)
                 .build()
         }
     }

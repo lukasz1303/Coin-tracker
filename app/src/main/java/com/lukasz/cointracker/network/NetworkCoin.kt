@@ -1,6 +1,8 @@
 package com.lukasz.cointracker.network
 
 import com.lukasz.cointracker.database.DatabaseCoin
+import java.text.SimpleDateFormat
+import java.util.*
 
 data class NetworkCoin (
     val id: String,
@@ -25,6 +27,9 @@ data class NetworkCoin (
 )
 
 fun List<NetworkCoin>.asDatabaseModel(): List<DatabaseCoin> {
+    val t = Calendar.getInstance().time
+    val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+    val date = formatter.format(t)
     return this.map {
         DatabaseCoin(
             id = it.id,
@@ -45,6 +50,7 @@ fun List<NetworkCoin>.asDatabaseModel(): List<DatabaseCoin> {
             ath = it.ath,
             ath_change_percentage = it.ath_change_percentage,
             ath_date = it.ath_date,
-            total_volume = it.total_volume)
+            total_volume = it.total_volume,
+            last_updated = date)
     }
 }
